@@ -12,7 +12,6 @@
             padding: 20px;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
             min-height: 100vh;
             box-sizing: border-box;
@@ -43,7 +42,6 @@
         }
 
         input, select {
-            width: 100%;
             padding: 10px;
             margin-bottom: 20px;
             border: 1px solid #ddd;
@@ -73,7 +71,7 @@
         }
 
         .result-row span {
-            font-weight: bold
+            font-weight: bold;
         }
 
         .result-number {
@@ -93,6 +91,30 @@
             display: none;
             margin-bottom: 10px;
             text-align: center;
+        }
+
+        .input-group {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .input-group button {
+            width: 40px;
+            height: 42px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f0f4f8;
+            cursor: pointer;
+            vertical-align: middle; /* Align vertically with input */
+        }
+
+        .input-group input {
+            width: 100%;
+            max-width: 120px;
+            text-align: center;
+            height: 42px; /* Ensure the input height matches the button */
+            vertical-align: middle; /* Align vertically with buttons */
         }
 
         footer {
@@ -126,12 +148,20 @@
         }
     </style>
     <script>
+        function updateDraws(value) {
+            const inputBox = document.getElementById('n');
+            let currentValue = parseInt(inputBox.value) || 0;
+            currentValue += value;
+            if (currentValue < 0) currentValue = 0;
+            inputBox.value = currentValue;
+            calculate();
+        }
+
         function calculate() {
             const n = parseFloat(document.getElementById('n').value) || 0;
             const rankValue = parseFloat(document.getElementById('rank').value) || 0;
             const coinPurchase = document.getElementById('coinPurchase').checked;
 
-            // Mapping rank to the minimum n value required
             const rankMinValues = {
                 250: 600,
                 200: 500,
@@ -146,7 +176,7 @@
             const minRequiredN = rankMinValues[rankValue];
 
             if (n < minRequiredN) {
-                document.getElementById('result').innerText = "Calculation not possible. Minimum draws for selected rank: " + minRequiredN;
+                document.getElementById('result').innerText = "선택한 랭크에 필요한 최소 뽑기 횟수: " + minRequiredN;
                 document.getElementById('result').style.display = 'block';
 
                 document.getElementById('pieceProbability').innerText = '0';
@@ -160,15 +190,14 @@
             document.getElementById('result').style.display = 'none';
 
             const pieceProbability = n * 0.1588;
-            ;
             const drawReward = Math.floor(n / 50) * 25;
-            const coinReward = coinPurchase ? Math.floor(n / 4) : 0; // Only the integer quotient
+            const coinReward = coinPurchase ? Math.floor(n / 4) : 0;
             const total = pieceProbability + drawReward + coinReward + rankValue;
 
             document.getElementById('pieceProbability').innerText = pieceProbability.toFixed(2);
-            document.getElementById('drawReward').innerText = drawReward.toFixed(2);
-            document.getElementById('coinReward').innerText = coinReward.toFixed(2);
-            document.getElementById('rankReward').innerText = rankValue;
+            document.getElementById('drawReward').innerText = drawReward.toString()
+            document.getElementById('coinReward').innerText = coinReward.toString()
+            document.getElementById('rankReward').innerText = rankValue.toString();
             document.getElementById('total').innerText = total.toFixed(2);
         }
     </script>
@@ -178,7 +207,13 @@
         <h1>Draw Calculation</h1>
 
         <label for="n">뽑기 횟수: </label>
-        <input type="number" id="n" value="300" oninput="calculate()">
+        <div class="input-group">
+            <button onclick="updateDraws(-10)">-10</button>
+            <button onclick="updateDraws(-1)">-1</button>
+            <input type="number" id="n" value="300" oninput="calculate()">
+            <button onclick="updateDraws(1)">+1</button>
+            <button onclick="updateDraws(10)">+10</button>
+        </div>
 
         <label for="rank">랭크: </label>
         <select id="rank" onchange="calculate()">
@@ -198,6 +233,7 @@
 
         <div class="results">
             <p id="result"></p>
+
             <div class="result-row">
                 <span>조각뽑기(15.88%)</span>
                 <span class="result-number" id="pieceProbability">0</span>
@@ -215,7 +251,7 @@
                 <span class="result-number" id="rankReward">0</span>
             </div>
             <div class="result-row" id="total-row">
-                <span>총합</span>
+                <span>총 조각</span>
                 <span class="result-number" id="total">0</span>
             </div>
         </div>
