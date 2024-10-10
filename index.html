@@ -160,8 +160,9 @@
             document.getElementById('result').style.display = 'none';
 
             const pieceProbability = n * 0.1588;
-            const drawReward = (n / 50) * 25;
-            const coinReward = coinPurchase ? (n / 4) : 0;
+            ;
+            const drawReward = Math.floor(n / 50) * 25;
+            const coinReward = coinPurchase ? Math.floor(n / 4) : 0; // Only the integer quotient
             const total = pieceProbability + drawReward + coinReward + rankValue;
 
             document.getElementById('pieceProbability').innerText = pieceProbability.toFixed(2);
