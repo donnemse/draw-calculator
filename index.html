@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Draw Calculation</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        label {
+            font-size: 16px;
+            color: #555;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        input[type="checkbox"] {
+            width: auto;
+            margin-right: 10px;
+        }
+
+        .results {
+            margin-top: 20px;
+        }
+
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: #f9fafb;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .result-row span {
+            font-weight: bold
+        }
+
+        .result-number {
+            color: #d32f2f; /* Bright red for better visibility */
+            font-weight: bold;
+        }
+
+        #total-row {
+            background-color: #ffeb3b;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        #result {
+            color: #d32f2f;
+            font-weight: bold;
+            display: none;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        footer {
+            text-align: center;
+            font-size: 12px;
+            color: #555;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 22px;
+            }
+
+            label, input, select {
+                font-size: 14px;
+            }
+
+            .result-row {
+                font-size: 13px;
+                padding: 8px;
+            }
+        }
+    </style>
+    <script>
+        function calculate() {
+            const n = parseFloat(document.getElementById('n').value) || 0;
+            const rankValue = parseFloat(document.getElementById('rank').value) || 0;
+            const coinPurchase = document.getElementById('coinPurchase').checked;
+
+            // Mapping rank to the minimum n value required
+            const rankMinValues = {
+                250: 600,
+                200: 500,
+                150: 400,
+                120: 300,
+                100: 200,
+                50: 100,
+                40: 100,
+                30: 100
+            };
+
+            const minRequiredN = rankMinValues[rankValue];
+
+            if (n < minRequiredN) {
+                document.getElementById('result').innerText = "Calculation not possible. Minimum draws for selected rank: " + minRequiredN;
+                document.getElementById('result').style.display = 'block';
+
+                document.getElementById('pieceProbability').innerText = '0';
+                document.getElementById('drawReward').innerText = '0';
+                document.getElementById('coinReward').innerText = '0';
+                document.getElementById('rankReward').innerText = '0';
+                document.getElementById('total').innerText = '0';
+                return;
+            }
+
+            document.getElementById('result').style.display = 'none';
+
+            const pieceProbability = n * 0.1588;
+            const drawReward = (n / 50) * 25;
+            const coinReward = coinPurchase ? (n / 4) : 0;
+            const total = pieceProbability + drawReward + coinReward + rankValue;
+
+            document.getElementById('pieceProbability').innerText = pieceProbability.toFixed(2);
+            document.getElementById('drawReward').innerText = drawReward.toFixed(2);
+            document.getElementById('coinReward').innerText = coinReward.toFixed(2);
+            document.getElementById('rankReward').innerText = rankValue;
+            document.getElementById('total').innerText = total.toFixed(2);
+        }
+    </script>
+</head>
+<body onload="calculate()">
+    <div class="container">
+        <h1>Draw Calculation</h1>
+
+        <label for="n">뽑기 횟수: </label>
+        <input type="number" id="n" value="300" oninput="calculate()">
+
+        <label for="rank">랭크: </label>
+        <select id="rank" onchange="calculate()">
+            <option value="250">1위 (+250)</option>
+            <option value="200">2-3위 (+200)</option>
+            <option value="150">4-6위 (+150)</option>
+            <option value="120">7-10위 (+120)</option>
+            <option value="100" selected>11-20위 (+100)</option>
+            <option value="50">21-30위 (+50)</option>
+            <option value="40">31-50위 (+40)</option>
+            <option value="30">51-100위 (+30)</option>
+        </select>
+
+        <label>
+            <input type="checkbox" id="coinPurchase" checked onchange="calculate()"> 코인 구입 포함(4뽑당 1조각)
+        </label>
+
+        <div class="results">
+            <p id="result"></p>
+            <div class="result-row">
+                <span>조각뽑기(15.88%)</span>
+                <span class="result-number" id="pieceProbability">0</span>
+            </div>
+            <div class="result-row">
+                <span>50뽑기당 보상</span>
+                <span class="result-number" id="drawReward">0</span>
+            </div>
+            <div class="result-row">
+                <span>코인구입</span>
+                <span class="result-number" id="coinReward">0</span>
+            </div>
+            <div class="result-row">
+                <span>랭크보상</span>
+                <span class="result-number" id="rankReward">0</span>
+            </div>
+            <div class="result-row" id="total-row">
+                <span>총합</span>
+                <span class="result-number" id="total">0</span>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        Develop by null (H68)
+    </footer>
+</body>
+</html>
