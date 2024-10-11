@@ -1,0 +1,131 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f8ff;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+}
+
+h2 {
+    text-align: center;
+    color: #0066cc;
+    font-size: 24px; /* 제목 크기 조정 */
+}
+
+form {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+input[type="number"], select {
+    width: calc(100% - 22px); /* input과 select 크기 일치 */
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #0066cc;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #004080;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.checkbox-container input[type="checkbox"] {
+    margin-right: 10px; /* 체크박스와 레이블 간의 여백 */
+}
+
+.results {
+    max-width: 600px;
+    margin: 20px auto;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: none; /* 최초에 숨김 처리 */
+}
+
+.results h2 {
+    color: #333;
+    margin-top: 0;
+}
+
+.result-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.result-card h3 {
+    margin-top: 0;
+    color: #0066cc;
+}
+
+.result-card ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.result-card ul li {
+    padding: 5px 0;
+    display: flex;
+    justify-content: space-between;
+    color: #555;
+}
+
+.result-value {
+    color: red;
+    text-align: right;
+}
+
+#total-result {
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    padding: 15px;
+    background-color: #fff9c4; /* 노란색 배경 */
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-top: 15px;
+}
+
+.error-message {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+}
+
+.rank-adjustment {
+    color: red;
+    font-weight: bold;
+}
