@@ -102,7 +102,7 @@ function displayResult(round, draws, reward, bonus, coinPurchase, elementId, fix
                     <li><strong>조각뽑기(15.88%):</strong> <span class="result-value">${(draws * 0.1588).toFixed(2)}</span></li>
                     <li><strong>50뽑기당 보상:</strong> <span class="result-value">${Math.floor(draws / 50) * 25}</span></li>
                     <li><strong>코인 구입 보상:</strong> <span class="result-value">${coinPurchase ? Math.floor(draws / 4) : 0}</span></li>
-                    <li><strong>랭크 보상 ${rankBonusInCollect}:</strong> <span class="result-value'>${realBonus}</span></li>
+                    <li><strong>랭크 보상 ${rankBonusInCollect}:</strong> <span class="result-value">${realBonus}</span></li>
                     <li><strong>총 보상:</strong> <span class="result-value">${reward.toFixed(2)}</span></li>
                 </ul>
             </div>
