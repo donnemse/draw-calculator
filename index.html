@@ -190,6 +190,28 @@
                 padding: 8px;
             }
         }
+        .styled-link {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .styled-link:hover {
+            background-color: #0056b3;
+        }
+
+        .styled-link:active {
+            background-color: #004085;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
     </style>
     <script>
         function updateDraws(value) {
@@ -300,7 +322,6 @@
             </div>
         </div>
     </div>
-
     <div class="container">
         <h1>Optimizing Draw Count</h1>
 
@@ -331,6 +352,11 @@
                 <li><span class="highlight">15.88%의 확률</span>로 조각을 획득할 수 있으므로, 확률적인 기대값에 기반하여 충분한 뽑기 횟수를 실행하는 것이 중요합니다.</li>
                 <li>전략: 이벤트 횟수가 적을 때는 운에 의해 결과가 크게 달라질 수 있지만, 많은 횟수를 반복하면 평균에 수렴하는 보상을 받을 가능성이 높아집니다.</li>
             </ul>
+        </div>
+        <div class="section">
+            <h2>
+                <a href="optimal_draw_calculator.html" class="styled-link">'한시뽑기 효율 계산기'로 이동</a>
+            </h2>
         </div>
     </div>
 
