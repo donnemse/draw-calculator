@@ -133,6 +133,40 @@
             color: #555;
         }
 
+        .section h2 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .section p {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        .section ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .section li {
+            background-color: #f9fafb;
+            margin-bottom: 8px;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .section li .highlight {
+            color: #d32f2f;
+            font-weight: bold;
+        }
+
         /* Mobile responsiveness */
         @media (max-width: 600px) {
             body {
@@ -264,6 +298,39 @@
                 <span>총 조각</span>
                 <span class="result-number" id="total">0</span>
             </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1>Optimizing Draw Count</h1>
+
+        <div class="section">
+            <h2>전략 1: 뽑기 횟수 최적화</h2>
+            <p><strong>목표:</strong> 고정 보상과 추가 보상을 최대한 효율적으로 획득하기 위해, 특정 조건에서 보상 효과가 극대화되는 지점을 찾는 것</p>
+            <ul>
+                <li>50회 단위로 뽑기: <span class="highlight">50회의 뽑기마다</span> 고정적으로 추가 보상(25조각)이 주어지므로, 뽑기 횟수를 50회 단위로 맞추는 것이 중요합니다.</li>
+                <li>4회 단위 추가 보상 고려: <span class="highlight">4의 배수로</span> 뽑기를 하면 추가 코인 보상을 효율적으로 얻을 수 있습니다.</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>전략 2: 랭크 보상 최적화</h2>
+            <p><strong>목표:</strong> 랭크 보상을 최대한 효율적으로 획득하여 추가 조각을 얻는 것</p>
+            <ul>
+                <li>급하지 않다면 1회 한시 이벤트에서 700조각을 모으려 하지 말고, <span class="highlight">회차를 나누어 랭크 보상을 여러 번 획득</span>하는 것이 좋습니다.</li>
+                <li>전략: 2~3회차에 걸쳐 한시 뽑기를 실행하여 최소 요구 조건에 맞춘 랭크 보상을 획득</li>
+                <li> * 3회에 걸쳐 100뽑(30위 - 50조각), 200뽑(20위 - 100조각), 200뽑(20위 안 - 100조각)으로 총 500뽑기</li>
+                <li> * 2회에 걸쳐 250뽑(20위 - 100조각), 200뽑(20위 - 100조각)으로 총 550뽑기</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>전략 3: 확률적 보상 기대치 최적화</h2>
+            <p><strong>목표:</strong> 이벤트에서의 확률적 보상을 기반으로 충분한 뽑기를 실행하여 기대값을 극대화하는 것</p>
+            <ul>
+                <li><span class="highlight">15.88%의 확률</span>로 조각을 획득할 수 있으므로, 확률적인 기대값에 기반하여 충분한 뽑기 횟수를 실행하는 것이 중요합니다.</li>
+                <li>전략: 이벤트 횟수가 적을 때는 운에 의해 결과가 크게 달라질 수 있지만, 많은 횟수를 반복하면 평균에 수렴하는 보상을 받을 가능성이 높아집니다.</li>
+            </ul>
         </div>
     </div>
 
