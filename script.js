@@ -116,7 +116,7 @@ function displayResult(round, draws, reward, bonus, coinPurchase, elementId, fix
     } else if (bonus > 0) {
         document.getElementById(elementId).innerHTML = `
         <div class="result-card">
-            <h3 style="color: #a22020;margin: 0;">${round}회차 무시됨</h3>
+            <h3 style="color: #a22020;margin: 0;">${round}회차 무시됨(비효율)</h3>
         </div>
         `;
     }
