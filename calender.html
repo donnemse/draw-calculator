@@ -325,8 +325,8 @@
             const titles = {
                 ko: {
                     luckyEvent: '보갑',
-                    wishSabo: '염원 - 사보',
-                    wishUta: '염원 - 우타',
+                    wishSabo: '염원 - 사보 조',
+                    wishUta: '염원 - 우타 조',
                     adv: '항로',
                     advX: '항로X',
                     adv120: '항로120',
@@ -336,7 +336,7 @@
                     gacha: '가챠'
                 },
                 en: {
-                    luckyEvent: 'Lucky Event',
+                    luckyEvent: 'Chest',
                     wishSabo: 'Wish - Sabo',
                     wishUta: 'Wish - Uta',
                     adv: 'Advanture',
@@ -360,19 +360,20 @@
             const colorPrepareEvent = {backgroundColor: '#81C98A', borderColor: '#6FA677'};
             const colorGachaEvent = {backgroundColor: '#B48EBB', borderColor: '#9C77A5'};
             
-            
             for (let date = new Date(startDate); date <= endDate; date.setDate(date.getDate() + 1)) {
                 const start = new Date(date);
                 const end = new Date(date);
                 const week = Math.ceil(start.getTime() / (86400000 * 7));
                 const days = Math.ceil(start.getTime() / (86400000));
 
+                // 행운 보갑(월) 2주에 한번
                 if (date.getDay() === monday && days % 2 == 0){
                     events.push({
                         title: titles[currentLanguage].luckyEvent,
                         start: start,
                         ...colorLuckyEvent
                     });
+                // 염원 모집(화) 사보조/우타조
                 } else if (date.getDay() === tuesday && week % 2 == 0){
                     let eventTitle = titles[currentLanguage].wishSabo;
                     if (week % 4 == 0) {
@@ -384,7 +385,17 @@
                         end: addDays(start, 3),
                         ...colorWishEvent
                     });
-                } else if (date.getDay() === thursday){
+                }
+                /*
+                 이벤트 준비
+                    * 다음날 비경주이면 99층까지만
+                    * 다음날 항로면 진행X
+                        항로진행 X의 경우
+                        - 6일후 항로120맞춤
+                        항로진행 무방일경우
+                        - 7일후 항로120맞춤
+                */
+                else if (date.getDay() === thursday){
                     let eventTitle = null;
                     if (week % 3 == 1) {
                         let afterDays = 7;
@@ -408,6 +419,12 @@
                             ...colorPrepareEvent
                         });
                     }
+                /*
+                    금요일 
+                        비경, 원양, 항로 7주일간 로테이션
+                        격주로 가챠 진행
+                            - 4일과 7일 반복 (추측)
+                */
                 } else if (date.getDay() === friday) {
                     let eventTitle = (week % 3 === 0) ? titles[currentLanguage].sanctuary : (week % 3 === 1) ? titles[currentLanguage].voyages : titles[currentLanguage].adv;
                     events.push({
