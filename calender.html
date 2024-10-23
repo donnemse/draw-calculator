@@ -248,8 +248,24 @@
                 } else if (date.getDay() === thursday){
                     end.setDate(end.getDate() + 1);
                     let eventTitle = null;
-                    if (week % 3 == 1 && days % 2 == 0) {
-                        eventTitle = "항로X"
+                    if (week % 3 == 1) {
+                        if (days % 2 == 0) {
+                            eventTitle = "항로X";
+                            events.push({
+                                title: "항로120",
+                                start: new Date(start).setDate(new Date(start).getDate() + 6),
+                                backgroundColor: '#B4E1AE', borderColor: '#A2D6A7'
+                                
+                            });
+                        } else {
+                            events.push({
+                                title: "항로120",
+                                start: new Date(start).setDate(new Date(start).getDate() + 7),
+                                backgroundColor: '#B4E1AE', borderColor: '#A2D6A7'
+                                
+                            });
+                        }
+                        
                     } else if (week % 3 == 2 && days % 2 == 1) {
                         eventTitle = "비경99"
                     }
