@@ -206,8 +206,10 @@
         function getEventWeek(startDate, endDate) {
             const events = [];
             const monday = 1;
+            const tuesday = 2;
             const friday = 5;
             const thursday = 4;
+
 
             for (let date = new Date(startDate); date <= endDate; date.setDate(date.getDate() + 1)) {
                 const start = new Date(date);
@@ -215,7 +217,27 @@
                 const week = Math.ceil(start.getTime() / (86400000 * 7));
                 const days = Math.ceil(start.getTime() / (86400000));
 
-                if (date.getDay() === monday && days % 2 ==0){
+                if (date.getDay() === tuesday && week % 2 == 0){
+                    console.log(week % 4 == 2)
+
+                    if (week % 4 == 0) {
+                        events.push({
+                            title: "염원-우타",
+                            start: start,
+                            end: new Date(start).setDate(new Date(start).getDate() + 3),
+                            backgroundColor: '#E5A27A', borderColor: '#CC8462'
+                        });
+                    } else {
+                        events.push({
+                            title: "염원-사보",
+                            start: start,
+                            end: new Date(start).setDate(new Date(start).getDate() + 3),
+                            backgroundColor: '#E5A27A', borderColor: '#CC8462'
+                        });
+                    }
+                }
+
+                if (date.getDay() === monday && days % 2 == 0){
                     let eventTitle = "보갑";
                     let color = getEventColors(eventTitle);
                         events.push({
