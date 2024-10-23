@@ -31,8 +31,21 @@
             padding: 5px;
         }
 
+        .fc-direction-ltr .fc-daygrid-event.fc-event-start, .fc-direction-rtl .fc-daygrid-event.fc-event-end {
+            margin-left: 1px;
+            margin-right: 1px;
+        }
+
+
         .fc-event-time {
             display: none;
+        }
+
+        .fc-daygrid-event .fc-event-title {
+            white-space: normal !important;
+            word-break: break-word;
+            overflow-wrap: break-word;
+            padding: 0px;
         }
 
         .fc-header-toolbar {
@@ -190,10 +203,10 @@
 
         const eventsConfig = {
             ko: [
-                '사보', '상조', '새턴', '카타', '나스', '밴벡', '쿠마', '에마', '??', '??', '??', '??', '??'
+                '사보', '쌍용', '새턴', '카타', '나스', '밴벡', '쿠마', '에마', '??', '??', '??', '??', '??'
             ],
             en: [
-                'Sabo', 'Sangi/Zoro', 'Saturn', 'Kata', 'Nas', 'Van Beck', 'Kuma', 'Ace/YMT', '??', '??', '??', '??', '??'
+                'Sabo', 'Twin.Drg', 'Saturn', 'Kata', 'Nas', 'Beckman', 'Kuma', 'Ace/YMT', '??', '??', '??', '??', '??'
             ]
         };
 
