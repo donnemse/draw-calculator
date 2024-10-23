@@ -271,6 +271,14 @@
                         end: end,
                         ...color
                     });
+
+                    if (week % 2 == 0) {
+                        events.push({
+                            title: "가챠",
+                            start: start,
+                            end: new Date(start).setDate(new Date(start).getDate() + 4),
+                        });
+                    }
                 }
             }
 
