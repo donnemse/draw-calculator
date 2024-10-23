@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>해적이야기 캘린더</title>
+    <title>해적이야기 캘린더 / Bounty Pirates Calendar</title>
     <!-- FullCalendar CSS -->
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
     <style>
@@ -19,12 +19,11 @@
             padding: 20px 0;
             background-color: #2c3e50;
             color: #fff;
-            font-size: 1.8em;
+            font-size: 1.2em;
             font-weight: bold;
         }
 
         #calendar {
-/*            max-width: 95%;*/
             margin: 5px auto;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             border-radius: 10px;
@@ -46,7 +45,7 @@
         }
 
         .fc-toolbar-title {
-            font-size: 1.2em;
+            font-size: 1.2em !important;
             font-weight: bold;
         }
 
@@ -100,6 +99,58 @@
             font-size: 0.75em;
             display: none;
             pointer-events: none;
+            z-index: 1000;
+        }
+
+        .language-switch {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        .language-switch button {
+            margin-left: 5px;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #3498db;
+            color: #fff;
+            font-size: 0.8em;
+        }
+
+        .language-switch button:hover {
+            background-color: #2980b9;
+        }
+
+         /* Footer Style */
+        footer {
+            background-color: #2c3e50;
+            color: #fff;
+            text-align: center;
+            padding: 15px 0;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .footer-links button {
+            padding: 8px 15px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .footer-links button:hover {
+            background-color: #2980b9;
         }
     </style>
 </head>
@@ -113,74 +164,113 @@
 </script>
 <body>
     <div id="header">해적이야기 캘린더</div>
+    <div class="language-switch">
+        <button id="ko-btn">ko</button>
+        <button id="en-btn">en</button>
+    </div>
     <div id="calendar"></div>
     <div class="tooltip" id="tooltip"></div>
 
+    <footer>
+        <p style="margin-top: 10px;">Develop by null (H68)</p>
+        <div class="footer-links">
+            <button id="link1-btn">Draw Calcurator</button>
+            <button id="link2-btn">Optimal Draw</button>
+        </div>
+    </footer>
+
     <!-- FullCalendar JS -->
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
-    <!-- 모바일 최적화를 위한 JavaScript -->
     <script>
     document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('calendar');
         var tooltip = document.getElementById('tooltip');
+        var headerEl = document.getElementById('header');
+        var currentLanguage = 'ko'; // Default language
 
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth',
-            locale: 'ko',
-            headerToolbar: {
-                left: 'prev,next today',
-                center: 'title',
-                right: ''
-            },
-            defaultAllDay: true,
-            height: 'auto',
-            editable: true,
-            droppable: true,
-            eventMouseEnter: function(info) {
-                tooltip.style.display = 'block';
-                tooltip.style.left = info.jsEvent.pageX + 10 + 'px';
-                tooltip.style.top = info.jsEvent.pageY + 10 + 'px';
-                tooltip.textContent = info.event.title;
-            },
-            eventMouseLeave: function() {
-                tooltip.style.display = 'none';
-            },
-            // 월이 변경될 때마다 호출되는 이벤트
-            datesSet: function(info) {
-                calendar.removeAllEvents();
-                calendar.addEventSource(getEventWeek(info.start, info.end));
-                calendar.addEventSource(getDrawWeek(info.start, info.end));
-            }
+        const eventsConfig = {
+            ko: [
+                '사보', '상조', '새턴', '카타', '나스', '밴벡', '쿠마', '에마', '??', '??', '??', '??', '??'
+            ],
+            en: [
+                'Sabo', 'Sangi/Zoro', 'Saturn', 'Kata', 'Nas', 'Van Beck', 'Kuma', 'Ace/YMT', '??', '??', '??', '??', '??'
+            ]
+        };
+
+        document.getElementById('link1-btn').addEventListener('click', function() {
+            window.location.href = 'https://donnemse.github.io/draw-calculator'; // 페이지 1 링크
         });
 
-        const repeatWeeks = [1, 2, 3, 6, 8, 9, 14];
-        const startDate = new Date("2024-05-31");
-        const eventsConfig = [
-            { name: '사보', startWeek: 0},
-            { name: '상조', startWeek: 3},
-            { name: '새턴', startWeek: 6},
-            { name: '카타', startWeek: 9},
-            { name: '나스', startWeek: 12},
-            { name: '밴벡', startWeek: 15},
-            { name: '쿠마', startWeek: 18},
-            { name: '에마', startWeek: 21},
-            { name: '??', startWeek: 24},
-            { name: '??', startWeek: 27},
-            { name: '??', startWeek: 30}
-        ];
+        document.getElementById('link2-btn').addEventListener('click', function() {
+            window.location.href = 'https://donnemse.github.io/draw-calculator/optimal_draw_calculator.html'; // 페이지 2 링크
+        });
+
+
+        function renderCalendar(locale) {
+            if (window.calendar) {
+                // window.calendar.destroy(); // Properly remove any previous instance
+            }
+
+            window.calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                locale: locale,
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: ''
+                },
+                eventOrder: "start",
+                defaultAllDay: true,
+                height: 'auto',
+                editable: true,
+                droppable: true,
+                eventMouseEnter: function(info) {
+                    tooltip.style.display = 'block';
+                    tooltip.style.left = info.jsEvent.pageX + 10 + 'px';
+                    tooltip.style.top = info.jsEvent.pageY + 10 + 'px';
+                    tooltip.textContent = info.event.title;
+                },
+                eventMouseLeave: function() {
+                    tooltip.style.display = 'none';
+                },
+                datesSet: function(info) {
+                    window.calendar.removeAllEvents();
+                    window.calendar.addEventSource(getEventWeek(info.start, info.end));
+                    window.calendar.addEventSource(getDrawWeek());
+                }
+            });
+
+            window.calendar.render();
+        }
+
+        document.getElementById('ko-btn').addEventListener('click', function() {
+            currentLanguage = 'ko';
+            headerEl.textContent = '해적이야기 캘린더';
+            renderCalendar('ko');
+        });
+
+        document.getElementById('en-btn').addEventListener('click', function() {
+            currentLanguage = 'en';
+            headerEl.textContent = 'Bounty Pirates Calendar';
+            renderCalendar('en');
+        });
+
+        renderCalendar('ko'); // Default to Korean
 
         function getDrawWeek() {
             const events = [];
-            
-            eventsConfig.forEach(event => {
+            const repeatWeeks = [1, 2, 3, 6, 8, 9, 14];
+            const startDate = new Date("2024-05-31");
+
+            eventsConfig[currentLanguage].forEach((event, index) => {
                 const baseDate = new Date(startDate);
-                baseDate.setDate(baseDate.getDate() + (event.startWeek * 7));
+                baseDate.setDate(baseDate.getDate() + ((index * 3) * 7));
                 
-                repeatWeeks.forEach((week, index) => {
+                repeatWeeks.forEach((week, idx) => {
                     let eventDate = new Date(baseDate);
                     eventDate.setDate(baseDate.getDate() + ((week - 1) * 7));
                     events.push({
-                        title: `${event.name}#${index + 1}`,
+                        title: `${event}#${idx + 1}`,
                         start: eventDate,
                         backgroundColor: '#E8C97A', borderColor: '#D4B563'
                     });
@@ -190,117 +280,117 @@
             return events;
         }
 
-        function getEventColors(type) {
-            const colors = {
-                '비경': { backgroundColor: '#A3D8F4', borderColor: '#81C7E1' }, // 파스텔 블루
-                '원양': { backgroundColor: '#FFB7B2', borderColor: '#FFA8A1' }, // 파스텔 핑크
-                '항로': { backgroundColor: '#B4E1AE', borderColor: '#A2D6A7' }, // 파스텔 그린
-                '항로X': { backgroundColor: '#FFE3AC', borderColor: '#FFD08A' }, // 파스텔 옐로우
-                '비경99': { backgroundColor: '#D9C2E9', borderColor: '#C8A9DB' }, // 파스텔 퍼플
-                '보갑': { backgroundColor: '#F8B195', borderColor: '#F48779' }, // 파스텔 코랄
-                '이벤트2': { backgroundColor: '#B48EBB', borderColor: '#9C77A5' }, // 어두운 파스텔 라일락
-                '이벤트3': { backgroundColor: '#88C7E3', borderColor: '#70B0CF' }, // 어두운 파스텔 스카이 블루
-                '이벤트4': { backgroundColor: '#E5A27A', borderColor: '#CC8462' }, // 어두운 파스텔 피치
-                '이벤트5': { backgroundColor: '#81C98A', borderColor: '#6FA677' }, // 어두운 파스텔 민트
-                '이벤트6': { backgroundColor: '#FF9AA2', borderColor: '#E58991' }, // 어두운 파스텔 로즈 핑크
-                '이벤트7': { backgroundColor: '#F8B4B8', borderColor: '#E39EA1' }, // 어두운 파스텔 라이트 핑크
-                '이벤트8': { backgroundColor: '#E8C97A', borderColor: '#D4B563' }, // 어두운 파스텔 샴페인
-                '이벤트9': { backgroundColor: '#96BAB7', borderColor: '#7FA09E' }, // 어두운 파스텔 아쿠아 그린
-                '이벤트10': { backgroundColor: '#B9CB4C', borderColor: '#A1B03F' } // 어두운 파스텔 라임 옐로우
-            };
-            return colors[type] || { backgroundColor: '#D3D3D3', borderColor: '#B0B0B0' };
+        function addDays(date, days) {
+            return new Date(date).setDate(new Date(date).getDate() + days)
         }
 
         function getEventWeek(startDate, endDate) {
             const events = [];
+            const titles = {
+                ko: {
+                    luckyEvent: '보갑',
+                    wishSabo: '염원 - 사보',
+                    wishUta: '염원 - 우타',
+                    adv: '항로',
+                    advX: '항로X',
+                    adv120: '항로120',
+                    sanctuary: '비경',
+                    sanctuary99: '비경99',
+                    voyages: '원양',
+                    gacha: '가챠'
+                },
+                en: {
+                    luckyEvent: 'Lucky Event',
+                    wishSabo: 'Wish - Sabo',
+                    wishUta: 'Wish - Uta',
+                    adv: 'Advanture',
+                    advX: 'AdvX',
+                    adv120: 'adv120',
+                    sanctuary: 'Sanctuary',
+                    sanctuary99: '99Sanctuary',
+                    voyages: 'Voyages',
+                    gacha: 'Gacha'
+                }
+            };
+
             const monday = 1;
             const tuesday = 2;
-            const friday = 5;
             const thursday = 4;
+            const friday = 5;
 
-
+            const colorEventWeek = {backgroundColor: '#88C7E3', borderColor: '#70B0CF'};
+            const colorLuckyEvent = {backgroundColor: '#F8B4B8', borderColor: '#E39EA1'};
+            const colorWishEvent = {backgroundColor: '#E5A27A', borderColor: '#CC8462'};
+            const colorPrepareEvent = {backgroundColor: '#81C98A', borderColor: '#6FA677'};
+            const colorGachaEvent = {backgroundColor: '#B48EBB', borderColor: '#9C77A5'};
+            
+            
             for (let date = new Date(startDate); date <= endDate; date.setDate(date.getDate() + 1)) {
                 const start = new Date(date);
                 const end = new Date(date);
                 const week = Math.ceil(start.getTime() / (86400000 * 7));
                 const days = Math.ceil(start.getTime() / (86400000));
 
-                if (date.getDay() === tuesday && week % 2 == 0){
-                    console.log(week % 4 == 2)
-
-                    if (week % 4 == 0) {
-                        events.push({
-                            title: "염원-우타",
-                            start: start,
-                            end: new Date(start).setDate(new Date(start).getDate() + 3),
-                            backgroundColor: '#E5A27A', borderColor: '#CC8462'
-                        });
-                    } else {
-                        events.push({
-                            title: "염원-사보",
-                            start: start,
-                            end: new Date(start).setDate(new Date(start).getDate() + 3),
-                            backgroundColor: '#E5A27A', borderColor: '#CC8462'
-                        });
-                    }
-                }
-
                 if (date.getDay() === monday && days % 2 == 0){
-                    let eventTitle = "보갑";
-                    let color = getEventColors(eventTitle);
-                        events.push({
-                            title: eventTitle,
-                            start: start,
-                            ...color
-                        });
-                } else if (date.getDay() === thursday){
-                    end.setDate(end.getDate() + 1);
-                    let eventTitle = null;
-                    if (week % 3 == 1) {
-                        if (days % 2 == 0) {
-                            eventTitle = "항로X";
-                            events.push({
-                                title: "항로120",
-                                start: new Date(start).setDate(new Date(start).getDate() + 6),
-                                backgroundColor: '#B4E1AE', borderColor: '#A2D6A7'
-                                
-                            });
-                        } else {
-                            events.push({
-                                title: "항로120",
-                                start: new Date(start).setDate(new Date(start).getDate() + 7),
-                                backgroundColor: '#B4E1AE', borderColor: '#A2D6A7'
-                                
-                            });
-                        }
-                        
-                    } else if (week % 3 == 2 && days % 2 == 1) {
-                        eventTitle = "비경99"
+                    events.push({
+                        title: titles[currentLanguage].luckyEvent,
+                        start: start,
+                        ...colorLuckyEvent
+                    });
+                } else if (date.getDay() === tuesday && week % 2 == 0){
+                    let eventTitle = titles[currentLanguage].wishSabo;
+                    if (week % 4 == 0) {
+                        eventTitle = titles[currentLanguage].wishUta;
                     }
-                    if (eventTitle != null) {
-                        let color = getEventColors(eventTitle);
-                        events.push({
-                            title: eventTitle,
-                            start: start,
-                            ...color
-                        });
-                    }
-                } else if (date.getDay() === friday) {
-                    end.setDate(end.getDate() + 7);
-                    let eventTitle = (week % 3 === 0) ? '비경' : (week % 3 === 1) ? '원양' : '항로';
-                    let color = getEventColors(eventTitle);
                     events.push({
                         title: eventTitle,
                         start: start,
-                        end: end,
-                        ...color
+                        end: addDays(start, 3),
+                        ...colorWishEvent
+                    });
+                } else if (date.getDay() === thursday){
+                    let eventTitle = null;
+                    if (week % 3 == 1) {
+                        let afterDays = 7;
+                        if (days % 2 == 0) {
+                            eventTitle = titles[currentLanguage].advX;
+                            afterDays = 6;
+                        }
+                        events.push({
+                            title: titles[currentLanguage].adv120,
+                            start: addDays(start, afterDays),
+                            ...colorPrepareEvent
+                        });
+                    } else if (week % 3 == 2 && days % 2 == 1) {
+                        eventTitle = titles[currentLanguage].sanctuary99;
+                    }
+
+                    if (eventTitle != null) {
+                        events.push({
+                            title: eventTitle,
+                            start: start,
+                            ...colorPrepareEvent
+                        });
+                    }
+                } else if (date.getDay() === friday) {
+                    let eventTitle = (week % 3 === 0) ? titles[currentLanguage].sanctuary : (week % 3 === 1) ? titles[currentLanguage].voyages : titles[currentLanguage].adv;
+                    events.push({
+                        title: eventTitle,
+                        start: start,
+                        end: addDays(start, 7),
+                        ...colorEventWeek
                     });
 
                     if (week % 2 == 0) {
+                        let duration = 4;
+                        if (week % 4 == 0) {
+                            duration = 7;
+                        }
                         events.push({
-                            title: "가챠",
+                            title: titles[currentLanguage].gacha,
                             start: start,
-                            end: new Date(start).setDate(new Date(start).getDate() + 4),
+                            end: addDays(start, duration),
+                            ...colorGachaEvent
                         });
                     }
                 }
@@ -308,8 +398,6 @@
 
             return events;
         }
-
-        calendar.render();
     });
     </script>
 </body>
