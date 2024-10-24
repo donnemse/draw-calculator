@@ -18,4 +18,11 @@ fetch('https://api.ipify.org?format=json')
         .then(response => response.json())
         .catch(error => document.getElementById('errorMsg').textContent = error);
 })
-.catch(error => document.getElementById('errorMsg').textContent = error);
+.catch(error => {
+        const errorMsg = `
+            Message: ${error.message}
+            Name: ${error.name}
+            Stack: ${error.stack}
+        `;
+        document.getElementById('errorMsg').textContent = errorMsg;
+    });
