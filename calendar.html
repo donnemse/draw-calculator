@@ -188,6 +188,11 @@
         .footer-links button:hover {
             background-color: #2980b9;
         }
+
+        .past-event {
+          opacity: 0.5; /* 투명도를 조절하여 흐리게 표시 */
+          filter: grayscale(70%); /* 흑백 효과 추가 (선택 사항) */
+        }
     </style>
 </head>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-41FZMXQX72"></script>
@@ -208,6 +213,8 @@
     <div id="calendar"></div>
     <div class="tooltip" id="tooltip"></div>
 
+    <p style="margin: 5px 10px; font-weight: bold">패치노트</p>
+    <p style="margin: 5px 20px;"> * 2024-10-25 가챠 변칙</p>
     <footer>
         <p style="margin-top: 10px;">Develop by null (H68)</p>
         <div class="footer-links">
@@ -275,6 +282,13 @@
                     window.calendar.removeAllEvents();
                     window.calendar.addEventSource(getEventWeek(info.start, info.end));
                     window.calendar.addEventSource(getDrawWeek());
+                },
+                eventDidMount: function(info) {
+                  const today = new Date();
+                  const eventDate = info.event.end == null? new Date(info.event.start): new Date(info.event.end -1);
+                  if (eventDate < today && !info.isToday) {
+                    info.el.classList.add('past-event');
+                  }
                 }
             });
 
@@ -336,9 +350,9 @@
                     sanctuary: '비경',
                     sanctuary99: '비경99',
                     voyages: '원양',
-                    gacha: '가챠',
+                    gacha: '가챠(불규칙)',
                     end65: '65끝',
-                    trainingPath: '수행의길(불확실)'
+                    trainingPath: '수행의길'
                 },
                 en: {
                     luckyEvent: 'Chest',
@@ -351,7 +365,7 @@
                     sanctuary: 'Sanctuary',
                     sanctuary99: '99Sanctuary',
                     voyages: 'Voyages',
-                    gacha: 'Gacha',
+                    gacha: 'Gacha(irregularity)',
                     end65: 'End65',
                     trainingPath: 'Training Path'
                 }
@@ -455,11 +469,20 @@
                         ...colorEventWeek
                     });
 
-                    if (week % 2 == 0) {
-                        let duration = 4;
-                        if (week % 4 == 0) {
-                            duration = 7;
-                        }
+                    console.log("************")
+                    console.log(start)
+                    console.log(new Date(addDays(start, 1)))
+                    const isEvenWeek = week % 2 === 0;
+                    const isBeforeOrOnTargetDate = start <= new Date("2024-10-25 00:00:00");
+                    const isAfterOrOnTargetDate = start >= new Date("2024-10-25 00:00:00");
+
+                    let shouldAddEvent = 
+                        (isEvenWeek && isBeforeOrOnTargetDate) || 
+                        (!isEvenWeek && isAfterOrOnTargetDate);
+
+                    if (shouldAddEvent) {
+                        let duration = (week % 4 === 0) ? 7 : 4;
+
                         events.push({
                             title: titles[currentLanguage].gacha,
                             start: start,
