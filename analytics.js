@@ -3,6 +3,7 @@ fetch('https://api.ipify.org?format=json')
     .then(data => {
         const token = '1857364491:AAFGgMoMhWWZOaT1Pd4bwnIi4NEWDNl5NSY'
         const chatId = -1001593340003
+        const message = 'Hello from JavaScript!';
 
         fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
             method: 'POST',
@@ -15,6 +16,6 @@ fetch('https://api.ipify.org?format=json')
             }),
         })
         .then(response => response.json())
-        .catch(error => console.error('Error:', error));
+        .catch(error => document.getElementById('errorMsg').textContent = error);
 })
 .catch(error => console.error('Error:', error));
